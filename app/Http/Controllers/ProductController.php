@@ -43,20 +43,29 @@ class ProductController extends Controller
         return Product::find($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        $validator = Validator::make($request->all(), [
+            'name' => ['min:3', 'max:255'],
+            'description' => ['min:3', 'max:255'],
+            'price' => ['decimal:2'],
+        ]);
+
+        if ($validator->fails()) {
+            return $validator->errors();
+        }
+
+        $product = Product::find($id);
+
+        $product->update($request->all());
+
+        return $product;
+
     }
 
     /**
