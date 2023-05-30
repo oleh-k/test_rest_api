@@ -38,4 +38,11 @@ class AuthController extends Controller
 
 
     }
+
+    public function logout(Request $request)
+    {
+        auth('sanctum')->user()->tokens()->delete();
+
+        return response(['status' => 'success'], 200);
+    }
 }
